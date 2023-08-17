@@ -8,4 +8,10 @@ public class GameController : MonoBehaviour
     {
         SceneManager.LoadScene("TerreainScene");
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
 }
