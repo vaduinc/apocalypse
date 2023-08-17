@@ -57,12 +57,12 @@ public class EnemyController : MonoBehaviour
         GameObject bulletObj = Instantiate(bullet, hand.transform.position + hand.transform.forward, hand.transform.rotation);
         ParticleSystem fireBall=  bulletObj.GetComponentInChildren<ParticleSystem>();
         fireBall.Play();
-        Transform spineTransform = FindChildRecursively(target.transform, "mixamorig:Spine");
+        Transform spineTransform = FindChildRecursively(target.transform, "mixamorig:Spine2");
 
         if (spineTransform != null)
         {
             bulletObj.transform.LookAt(spineTransform.position);
-            bulletObj.GetComponent<Rigidbody>().AddForce(bulletObj.transform.forward * 1000);
+            bulletObj.GetComponent<Rigidbody>().AddForce(bulletObj.transform.forward * 2000);
         }
 
     }

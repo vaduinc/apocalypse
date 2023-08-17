@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             anim.SetTrigger("HitLeft");
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<Bullet>().Explote();
         }
     }
 
