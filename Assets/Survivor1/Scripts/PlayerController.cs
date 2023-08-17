@@ -50,8 +50,12 @@ public class PlayerController : MonoBehaviour
     public void PickupGun()
     {
         weapon.SetParent(hand);
-        weapon.localPosition = new Vector3(-0.052f, 0.332f, 0.0027f);
-        weapon.localRotation = Quaternion.Euler(-0.233f, -70.438f, 88.781f);
+        //weapon.localPosition = new Vector3(-0.052f, 0.332f, 0.0027f);
+        //weapon.localRotation = Quaternion.Euler(-0.233f, -70.438f, 88.781f);
+
+        weapon.localPosition = new Vector3(0.014f, 0.324f, 0.058f);
+        weapon.localRotation = Quaternion.Euler(-10.699f, -99.567f, 83.91f);
+
         weapon.localScale = new Vector3(80f, 80f, 80f);
     }
 
