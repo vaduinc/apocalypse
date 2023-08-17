@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.6415094, g: 0.46987504, b: 0.16642934, a: 0.12156863}
-    m_HighlightedColor: {r: 0.8301887, g: 0.77858216, b: 0.121395506, a: 1}
+    m_HighlightedColor: {r: 0.047169805, g: 0.020287149, b: 0.0028924893, a: 1}
     m_PressedColor: {r: 0.066037714, g: 0.041348528, b: 0.009033463, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -209,7 +209,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1392656496}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: PlayGame
+        m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -727,7 +727,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.6415094, g: 0.46987504, b: 0.16642934, a: 0.12156863}
-    m_HighlightedColor: {r: 0.83137256, g: 0.78039217, b: 0.12156863, a: 1}
+    m_HighlightedColor: {r: 0.050980393, g: 0.023529412, b: 0.003921569, a: 1}
     m_PressedColor: {r: 0.066037714, g: 0.041348528, b: 0.009033463, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
