@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour
     Animator anim;
     NavMeshAgent agent;
     float destroyHeight;
+    int health = 3;
     public GameObject target;
     public float walkingSpeed;
     public float runningSpeed;
@@ -86,11 +87,18 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    public void HitDamage ()
+    public void HitDamage()
     {
-        TurnOff();
-        anim.SetBool("isDead", true);
-        this.state = STATE.DEAD;
+        health--;
+
+        if (health <= 0) { 
+          TurnOff();
+          anim.SetBool("isDead", true);
+          this.state = STATE.DEAD;
+        } else  {
+          anim.SetTrigger("isHit");
+        }
+
     }
 
     bool CanSeePlayer()

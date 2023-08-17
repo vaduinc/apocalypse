@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     Vector2 fireDirection; // donde esta apuntando el jugador -- sigue el movimiento del mouse
     public Transform bulletAim;
 
+    public int health = 100;
+    public int ammo = 100;
+
     // Variables para el movimiento
     public float moveSpeed; //  1;
     public float maxForwardSpeed; //  20;
@@ -50,13 +53,11 @@ public class PlayerController : MonoBehaviour
     public void PickupGun()
     {
         weapon.SetParent(hand);
-        //weapon.localPosition = new Vector3(-0.052f, 0.332f, 0.0027f);
-        //weapon.localRotation = Quaternion.Euler(-0.233f, -70.438f, 88.781f);
-
         weapon.localPosition = new Vector3(0.014f, 0.324f, 0.058f);
         weapon.localRotation = Quaternion.Euler(-10.699f, -99.567f, 83.91f);
-
         weapon.localScale = new Vector3(80f, 80f, 80f);
+        Light aimLight = bulletAim.GetComponent<Light>();
+        aimLight.intensity = 10;
     }
 
     // Mover el arma de la mano a la cadera.
@@ -66,6 +67,8 @@ public class PlayerController : MonoBehaviour
         weapon.localPosition = new Vector3(-0.107f, 0.118f, -0.083f);
         weapon.localRotation = Quaternion.Euler(4.072f, -10.647f, 87.095f);
         weapon.localScale = new Vector3(80f, 80f, 80f);
+        Light aimLight = bulletAim.GetComponent<Light>();
+        aimLight.intensity = 0;
     }
 
     // Comprobar si hay alguna entrada de movimiento.
@@ -102,22 +105,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //public void shotsWereFired()
-    //{
-    //    // Play the shoot sound
-    //    Debug.Log("playing el sonido!!!! FUNCIONO");
-    //    //AudioSource audio = new AudioSource();
-    //    //audio = gunAudio;
-    //    //audio.Play();
-
-    //    //if (!gunAudio.isPlaying)
-    //    //{
-    //        gunAudio.PlayOneShot(gun);
-    //    //}
-        
-    //}
-
-
+    
     // Callback para la entrada de disparo.
     // LLamado por Unity
     public void OnFire(InputAction.CallbackContext context)
@@ -128,6 +116,7 @@ public class PlayerController : MonoBehaviour
             CheckIfEnemyShoot();
             anim.SetTrigger("Fire");
             gunAudio.PlayOneShot(gun);
+            ammo--;
         }
     }
 
