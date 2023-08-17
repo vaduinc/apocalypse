@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ea5f2deb7a49045fc94809c7236d7ea9
+guid: 42769e219aa1946b38d193378a4d0ee0
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -17,7 +17,14 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
+      copied configuration does not match position in animation file:\n\t'mixamorig:LeftUpLeg'
+      : position error = 40.020496 mm\n\t'mixamorig:LeftLeg' : position error = 17.082502
+      mm\n\t'mixamorig:LeftFoot' : position error = 38.481728 mm\n\t'mixamorig:LeftToeBase'
+      : position error = 94.356644 mm\n\t'mixamorig:RightUpLeg' : position error
+      = 44.714794 mm\n\t'mixamorig:RightLeg' : position error = 16.505104 mm\n\t'mixamorig:RightFoot'
+      : position error = 39.289715 mm\n\t'mixamorig:RightToeBase' : position error
+      = 97.472908 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -33,11 +40,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: fireRifle
+      name: regularWalk
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 8
+      lastFrame: 41
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -46,8 +53,8 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
