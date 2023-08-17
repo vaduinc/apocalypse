@@ -139,7 +139,7 @@ MonoBehaviour:
   walkingSpeed: 1
   runningSpeed: 4
   hand: {fileID: 8493114303170957525}
-  bullet: {fileID: 6475176796167530965, guid: fb5c6abc165034ee9a2b12d233758097, type: 3}
+  bullet: {fileID: 8075340544537743693, guid: 1bc0d3ba5112e4019a5b5fbd34d5ee67, type: 3}
 --- !u!195 &8708859796278732961
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -27,7 +27,6 @@ public class EnemyController : MonoBehaviour
     public void RenderBullet()
     {
         bullet.GetComponent<MeshRenderer>().enabled = true;
-        Debug.Log("la haga aparecer");
     }
 
     private Transform FindChildRecursively(Transform parent, string childName)
@@ -54,10 +53,10 @@ public class EnemyController : MonoBehaviour
 
     public void ThrowBullet()
     {
-        Debug.Log("la voy a tirar");
-       // bullet.GetComponent<MeshRenderer>().enabled = false;
+        
         GameObject bulletObj = Instantiate(bullet, hand.transform.position + hand.transform.forward, hand.transform.rotation);
-        //Transform spineTransform = target.transform.Find("Neck");
+        ParticleSystem fireBall=  bulletObj.GetComponentInChildren<ParticleSystem>();
+        fireBall.Play();
         Transform spineTransform = FindChildRecursively(target.transform, "mixamorig:Spine");
 
         if (spineTransform != null)
