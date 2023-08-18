@@ -12,7 +12,15 @@ public class EnemyController : MonoBehaviour
     public float runningSpeed;
     public Transform hand;
     public GameObject bullet;
-    
+
+    public delegate void CreatedInsatnceDelegate(EnemyController me);
+    public static event CreatedInsatnceDelegate OnInstanceCreatedEnemy;
+
+    [Header("Audio")]
+    public AudioClip hitClip;
+    public AudioClip dieClip;
+    public AudioClip moanClip;
+
     enum STATE {  IDLE, AROUND , ATTACK, CHASE, DEAD };
     STATE state = STATE.IDLE;
 
@@ -67,18 +75,27 @@ public class EnemyController : MonoBehaviour
         }
 
     }
+
+    public void Moan()
+    {
+        GetComponent<AudioSource>().PlayOneShot(moanClip);
+    }
     
 
     // Start is called before the first frame update
     void Start()
     {
-        anim = this.GetComponent<Animator>();
-        agent = this.GetComponent<NavMeshAgent>();
-        if (target == null)
-        {
-            target = GameObject.FindWithTag("Player");
-            return;
-        }
+        anim = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
+        //if (target == null)
+        //{
+        //    Debug.Log("LAST RESOURCE");
+        //    target = GameObject.FindWithTag("Player");
+        //} else
+        //{
+        //    Debug.Log("OROGOANAL " + target.GetType().Name);
+        //}
+        OnInstanceCreatedEnemy(this);
     }
 
     float DistanceToPlayer()
@@ -91,12 +108,14 @@ public class EnemyController : MonoBehaviour
     {
         health--;
 
-        if (health <= 0) { 
-          TurnOff();
-          anim.SetBool("isDead", true);
-          this.state = STATE.DEAD;
+        if (health <= 0) {
+            GetComponent<AudioSource>().PlayOneShot(dieClip);
+            TurnOff();
+            anim.SetBool("isDead", true);
+            state = STATE.DEAD;
         } else  {
-          anim.SetTrigger("isHit");
+            GetComponent<AudioSource>().PlayOneShot(hitClip);
+            anim.SetTrigger("isHit");
         }
 
     }

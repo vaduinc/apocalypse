@@ -10,11 +10,10 @@ public class PlayerController : MonoBehaviour
     Vector2 fireDirection; // donde esta apuntando el jugador -- sigue el movimiento del mouse
     public Transform bulletAim;
 
-    [Header("UI")]
-    public Text ammoLabel;
+    public delegate void ScoreUpdatedDelegate(int newScore);
+    public static event ScoreUpdatedDelegate OnScoreUpdated;
 
-    public int health = 100;
-    public int ammo = 100;
+    private int myAmmo;
 
     // Variables para el movimiento
     public float moveSpeed; //  1;
@@ -41,7 +40,6 @@ public class PlayerController : MonoBehaviour
     Animator anim;
 
     [Header("Audio")]
-    public AudioSource gunAudio;
     public AudioClip gun;
 
     public void OnCollisionEnter(Collision collision)
@@ -109,6 +107,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    void UpdateAmmo(int ammo)
+    {
+        OnScoreUpdated(ammo);
+    }
+
     
     // Callback para la entrada de disparo.
     // LLamado por Unity
@@ -119,9 +123,8 @@ public class PlayerController : MonoBehaviour
         {
             CheckIfEnemyShoot();
             anim.SetTrigger("Fire");
-            gunAudio.PlayOneShot(gun);
-            ammo--;
-            ammoLabel.text = ammo+"";
+            GetComponent<AudioSource>().PlayOneShot(gun);
+            UpdateAmmo(myAmmo--);
         }
     }
 
@@ -163,7 +166,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         anim = this.GetComponent<Animator>();
-        ammoLabel.text = ammo + "";
+        myAmmo = PlayGlobals.PlayerAmmo;
+        UpdateAmmo(myAmmo);
     }
 
     void Update()

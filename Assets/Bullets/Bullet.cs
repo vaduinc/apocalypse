@@ -4,6 +4,9 @@ public class Bullet : MonoBehaviour
 {
     private bool hasExploded = false;
 
+    [Header("Audio")]  
+    public AudioClip explosionClip;
+
     void Start()
     {
         Invoke("Explote", 4f);
@@ -19,6 +22,7 @@ public class Bullet : MonoBehaviour
 
     public void Explote()
     {
+        GetComponent<AudioSource>().PlayOneShot(explosionClip);
         ParticleSystem particleSystem = this.GetParticleByName("Explosion_PSPrefab");
         ParticleSystem particleBallFile = this.GetParticleByName("Meteor_PS");
 
