@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class PlayerController : MonoBehaviour
     Vector2 moveDirection; // se pasa como parametro dentro de Update
     Vector2 fireDirection; // donde esta apuntando el jugador -- sigue el movimiento del mouse
     public Transform bulletAim;
+
+    [Header("UI")]
+    public Text ammoLabel;
 
     public int health = 100;
     public int ammo = 100;
@@ -117,6 +121,7 @@ public class PlayerController : MonoBehaviour
             anim.SetTrigger("Fire");
             gunAudio.PlayOneShot(gun);
             ammo--;
+            ammoLabel.text = ammo+"";
         }
     }
 
@@ -158,6 +163,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         anim = this.GetComponent<Animator>();
+        ammoLabel.text = ammo + "";
     }
 
     void Update()
