@@ -219,6 +219,8 @@ public class PlayerController : MonoBehaviour
         myHealth = PlayGlobals.PlayerHealth;
         UpdateAmmo(myAmmo);
         UpdateHealth(myHealth);
+        Light aimLight = bulletAim.GetComponent<Light>();
+        aimLight.intensity = 0;
     }
 
     void Update()
