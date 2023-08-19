@@ -6,7 +6,9 @@ public class EnemyController : MonoBehaviour
     Animator anim;
     NavMeshAgent agent;
     float destroyHeight;
-    int health = 3;
+    int health = 2;
+    bool isDead = false;
+
     public GameObject target;
     public float walkingSpeed;
     public float runningSpeed;
@@ -15,6 +17,9 @@ public class EnemyController : MonoBehaviour
 
     public delegate void CreatedInsatnceDelegate(EnemyController me);
     public static event CreatedInsatnceDelegate OnInstanceCreatedEnemy;
+
+    public delegate void DeadsUpdatedDelegate();
+    public static event DeadsUpdatedDelegate OnDeadEnemy;
 
     [Header("Audio")]
     public AudioClip hitClip;
@@ -78,7 +83,8 @@ public class EnemyController : MonoBehaviour
 
     public void Moan()
     {
-        GetComponent<AudioSource>().PlayOneShot(moanClip);
+        // TODO cambiar de sonido
+        // GetComponent<AudioSource>().PlayOneShot(moanClip);
     }
     
 
@@ -87,14 +93,6 @@ public class EnemyController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        //if (target == null)
-        //{
-        //    Debug.Log("LAST RESOURCE");
-        //    target = GameObject.FindWithTag("Player");
-        //} else
-        //{
-        //    Debug.Log("OROGOANAL " + target.GetType().Name);
-        //}
         OnInstanceCreatedEnemy(this);
     }
 
@@ -106,8 +104,6 @@ public class EnemyController : MonoBehaviour
 
     public void HitDamage()
     {
-        health--;
-
         if (health <= 0) {
             GetComponent<AudioSource>().PlayOneShot(dieClip);
             TurnOff();
@@ -117,7 +113,7 @@ public class EnemyController : MonoBehaviour
             GetComponent<AudioSource>().PlayOneShot(hitClip);
             anim.SetTrigger("isHit");
         }
-
+        health--;
     }
 
     bool CanSeePlayer()
@@ -140,8 +136,13 @@ public class EnemyController : MonoBehaviour
 
     void BurriedBody()
     {
+        if (!isDead)
+        {
+            OnDeadEnemy();
+            isDead = true;
+        }
         destroyHeight = Terrain.activeTerrain.SampleHeight(this.transform.position) - 5;
-        Collider[] colliders = this.transform.GetComponentsInChildren<Collider>();
+        Collider[] colliders = transform.GetComponentsInChildren<Collider>();
         foreach ( Collider c in colliders)
         {
             Destroy(c);
@@ -152,10 +153,10 @@ public class EnemyController : MonoBehaviour
 
     void IntoGround()
     {
-        this.transform.Translate(0, -0.001f, 0);
-        if (this.transform.position.y < destroyHeight)
+        transform.Translate(0, -0.001f, 0);
+        if (transform.position.y < destroyHeight)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 

@@ -12,6 +12,7 @@ public class PlayGlobals : MonoBehaviour
     public static int PlayerAmmo;
 
     public Text ammoText;
+    public Text enemyText;
 
 
     public static void resetGlobals()
@@ -25,10 +26,13 @@ public class PlayGlobals : MonoBehaviour
     {
         
         resetGlobals();
+        ammoText.text = PlayerAmmo + "";
+        enemyText.text = EnemiesDown + "";
         playerInstance = Instantiate(playerPrefab, transform.position, Quaternion.identity);
         FindVirtualCamera(playerInstance);
-        PlayerController.OnScoreUpdated += UpdateScoreUI;
+        PlayerController.OnScoreUpdated += UpdateAmmoUI;
         EnemyController.OnInstanceCreatedEnemy += EnemyInstanceCreated;
+        EnemyController.OnDeadEnemy += DeadEnemy;
 
     }
 
@@ -50,13 +54,20 @@ public class PlayGlobals : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayerController.OnScoreUpdated -= UpdateScoreUI;
+        PlayerController.OnScoreUpdated -= UpdateAmmoUI;
         EnemyController.OnInstanceCreatedEnemy -= EnemyInstanceCreated;
     }
 
-    private void UpdateScoreUI(int newScore)
+
+    private void UpdateAmmoUI(int newScore)
     {
         ammoText.text = newScore.ToString();
+    }
+
+    private void DeadEnemy()
+    {
+        EnemiesDown++;
+        enemyText.text = EnemiesDown + "";
     }
 
     private void EnemyInstanceCreated(EnemyController enemy)

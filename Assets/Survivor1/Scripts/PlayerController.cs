@@ -121,10 +121,12 @@ public class PlayerController : MonoBehaviour
         // Activa la animación "Fire" si la entrada de disparo está activada y el personaje está armado.
         if (context.ReadValue<float>() == 1 && anim.GetBool("Armed"))
         {
+            Debug.Log("ESTA DISPARANDO");
             CheckIfEnemyShoot();
             anim.SetTrigger("Fire");
             GetComponent<AudioSource>().PlayOneShot(gun);
-            UpdateAmmo(myAmmo--);
+            myAmmo--;
+            UpdateAmmo(myAmmo);
         }
     }
 
