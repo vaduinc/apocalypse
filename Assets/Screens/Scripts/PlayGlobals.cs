@@ -5,14 +5,21 @@ using UnityEngine.UI;
 public class PlayGlobals : MonoBehaviour
 {
 
+
+    public static bool gameOver = false;
+    CinemachineVirtualCamera cameraComponent;
+    GameObject playerInstance;
     public GameObject playerPrefab;
-    public GameObject playerInstance;
     public static int PlayerHealth;
     public static int EnemiesDown;
     public static int PlayerAmmo;
 
+    [Header("Audio")]
     public Text ammoText;
     public Text enemyText;
+    public Text healthText;
+
+    float destroyHeight;
 
 
     public static void resetGlobals()
@@ -30,7 +37,9 @@ public class PlayGlobals : MonoBehaviour
         enemyText.text = EnemiesDown + "";
         playerInstance = Instantiate(playerPrefab, transform.position, Quaternion.identity);
         FindVirtualCamera(playerInstance);
+        PlayerController.OnHealthUpdated += UpdateHealthUI;
         PlayerController.OnScoreUpdated += UpdateAmmoUI;
+        PlayerController.OnDeadPlayer += DeadPlayer;
         EnemyController.OnInstanceCreatedEnemy += EnemyInstanceCreated;
         EnemyController.OnDeadEnemy += DeadEnemy;
 
@@ -39,7 +48,7 @@ public class PlayGlobals : MonoBehaviour
     void FindVirtualCamera(GameObject player)
     {
         
-        CinemachineVirtualCamera cameraComponent = FindObjectOfType<CinemachineVirtualCamera>();
+        cameraComponent = FindObjectOfType<CinemachineVirtualCamera>();
 
         if (cameraComponent != null)
         {
@@ -54,8 +63,21 @@ public class PlayGlobals : MonoBehaviour
 
     private void OnDestroy()
     {
+        PlayerController.OnHealthUpdated -= UpdateHealthUI;
         PlayerController.OnScoreUpdated -= UpdateAmmoUI;
+        PlayerController.OnDeadPlayer -= DeadPlayer;
         EnemyController.OnInstanceCreatedEnemy -= EnemyInstanceCreated;
+        EnemyController.OnDeadEnemy -= DeadEnemy;
+    }
+
+
+    private void UpdateHealthUI(int newHealth)
+    {
+        if (newHealth < 0)
+        {
+            newHealth = 0;
+        }
+        healthText.text = newHealth.ToString();
     }
 
 
@@ -63,6 +85,37 @@ public class PlayGlobals : MonoBehaviour
     {
         ammoText.text = newScore.ToString();
     }
+
+
+    private void DeadPlayer()
+    {
+        onPlayerDying();
+    }
+
+    void onPlayerDying()
+    {
+        cameraComponent.Follow = null;
+        cameraComponent.LookAt = null;
+        destroyHeight = Terrain.activeTerrain.SampleHeight(playerInstance.transform.position) - 5;
+        Collider[] colliders = playerInstance.transform.GetComponentsInChildren<Collider>();
+        foreach (Collider c in colliders)
+        {
+            Destroy(c);
+        }
+
+        InvokeRepeating("IntoGround", 1, 1.0f);
+    }
+
+
+    void IntoGround()
+    {
+        playerInstance.transform.Translate(0, -0.001f, 0);
+        if (playerInstance.transform.position.y < destroyHeight)
+        {
+            Destroy(playerInstance);
+        }
+    }
+
 
     private void DeadEnemy()
     {

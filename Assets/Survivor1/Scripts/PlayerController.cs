@@ -9,11 +9,19 @@ public class PlayerController : MonoBehaviour
     Vector2 moveDirection; // se pasa como parametro dentro de Update
     Vector2 fireDirection; // donde esta apuntando el jugador -- sigue el movimiento del mouse
     public Transform bulletAim;
+    bool isDead = false;
 
     public delegate void ScoreUpdatedDelegate(int newScore);
     public static event ScoreUpdatedDelegate OnScoreUpdated;
 
+    public delegate void HealthUpdatedDelegate(int newHealth);
+    public static event HealthUpdatedDelegate OnHealthUpdated;
+
+    public delegate void DeadPlayerDelegate();
+    public static event DeadPlayerDelegate OnDeadPlayer;
+
     private int myAmmo;
+    private int myHealth;
 
     // Variables para el movimiento
     public float moveSpeed; //  1;
@@ -41,15 +49,43 @@ public class PlayerController : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip gun;
+    public AudioClip gunEmpty;
+    public AudioClip dying;
 
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            anim.SetTrigger("HitLeft");
-            collision.gameObject.GetComponent<Bullet>().Explote();
+            if (!isDead) { 
+                anim.SetTrigger("HitLeft");
+                collision.gameObject.GetComponent<Bullet>().Explote();
+                myHealth = myHealth - 15;
+                UpdateHealth(myHealth);
+                if (myHealth <0)
+                {
+                    GetComponent<AudioSource>().PlayOneShot(dying);
+                    OnDying();
+                }
+            }
         }
     }
+
+
+    void OnDying()
+    {
+        if (!isDead)
+        {
+            isDead = true;
+            PlayGlobals.gameOver = true;
+            anim.SetTrigger("isDying");
+        }
+    }
+
+    public void IsDead()
+    {
+        OnDeadPlayer();
+    }
+
 
     // Mover el arma de la cadera a la mano.
     public void PickupGun()
@@ -107,6 +143,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    
+    void UpdateHealth(int health)
+    {
+        OnHealthUpdated(health);
+    }
 
     void UpdateAmmo(int ammo)
     {
@@ -118,15 +159,21 @@ public class PlayerController : MonoBehaviour
     // LLamado por Unity
     public void OnFire(InputAction.CallbackContext context)
     {
+
         // Activa la animación "Fire" si la entrada de disparo está activada y el personaje está armado.
-        if (context.ReadValue<float>() == 1 && anim.GetBool("Armed"))
+        if (context.ReadValue<float>() == 1 && anim.GetBool("Armed") && context.performed)
         {
-            Debug.Log("ESTA DISPARANDO");
-            CheckIfEnemyShoot();
             anim.SetTrigger("Fire");
-            GetComponent<AudioSource>().PlayOneShot(gun);
-            myAmmo--;
-            UpdateAmmo(myAmmo);
+            if (myAmmo > 0)
+            {
+                CheckIfEnemyShoot();
+                GetComponent<AudioSource>().PlayOneShot(gun);
+                myAmmo--;
+                UpdateAmmo(myAmmo);
+            } else
+            {
+                GetComponent<AudioSource>().PlayOneShot(gunEmpty);
+            }
         }
     }
 
@@ -169,7 +216,9 @@ public class PlayerController : MonoBehaviour
     {
         anim = this.GetComponent<Animator>();
         myAmmo = PlayGlobals.PlayerAmmo;
+        myHealth = PlayGlobals.PlayerHealth;
         UpdateAmmo(myAmmo);
+        UpdateHealth(myHealth);
     }
 
     void Update()

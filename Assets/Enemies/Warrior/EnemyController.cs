@@ -98,6 +98,10 @@ public class EnemyController : MonoBehaviour
 
     float DistanceToPlayer()
     {
+        if (PlayGlobals.gameOver)
+        {
+            return Mathf.Infinity;
+        }
         return Vector3.Distance(target.transform.position, this.transform.position);
     }
 
