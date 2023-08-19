@@ -812,7 +812,7 @@ GameObject:
   - component: {fileID: 1641694057}
   - component: {fileID: 1641694056}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: exitTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -886,7 +886,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: EXIT
+  m_Text: SALIR
 --- !u!222 &1641694058
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -908,7 +908,7 @@ GameObject:
   - component: {fileID: 1661896006}
   - component: {fileID: 1661896008}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: playTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -967,7 +967,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PLAY
+  m_Text: JUGAR
 --- !u!222 &1661896007
 CanvasRenderer:
   m_ObjectHideFlags: 0

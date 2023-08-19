@@ -1,6 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayGlobals : MonoBehaviour
 {
@@ -18,8 +19,13 @@ public class PlayGlobals : MonoBehaviour
     public Text ammoText;
     public Text enemyText;
     public Text healthText;
+    public Text lostText;
+    public Button playButton;
+    public Button menuButton;
 
     float destroyHeight;
+
+    int optionSelected = 0;
 
 
     public static void resetGlobals()
@@ -27,12 +33,32 @@ public class PlayGlobals : MonoBehaviour
         PlayerHealth = 100;
         EnemiesDown = 0;
         PlayerAmmo = 100;
+        gameOver = false;
     }
 
     void Start()
     {
-        
+
+        StartNewGame();
+
+    }
+
+    public void ReloadScene()
+    {
+        optionSelected = 1;
+        Destroy(this);
+    }
+
+    public void GoBackMenu()
+    {
+        optionSelected = 2;
+        Destroy(this);
+    }
+
+    void StartNewGame()
+    {
         resetGlobals();
+        optionSelected = 0;
         ammoText.text = PlayerAmmo + "";
         enemyText.text = EnemiesDown + "";
         playerInstance = Instantiate(playerPrefab, transform.position, Quaternion.identity);
@@ -42,6 +68,9 @@ public class PlayGlobals : MonoBehaviour
         PlayerController.OnDeadPlayer += DeadPlayer;
         EnemyController.OnInstanceCreatedEnemy += EnemyInstanceCreated;
         EnemyController.OnDeadEnemy += DeadEnemy;
+        lostText.gameObject.SetActive(false);
+        playButton.gameObject.SetActive(false);
+        menuButton.gameObject.SetActive(false);
 
     }
 
@@ -68,6 +97,15 @@ public class PlayGlobals : MonoBehaviour
         PlayerController.OnDeadPlayer -= DeadPlayer;
         EnemyController.OnInstanceCreatedEnemy -= EnemyInstanceCreated;
         EnemyController.OnDeadEnemy -= DeadEnemy;
+
+        if (optionSelected == 1)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        } else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+        
     }
 
 
@@ -89,6 +127,9 @@ public class PlayGlobals : MonoBehaviour
 
     private void DeadPlayer()
     {
+        lostText.gameObject.SetActive(true);
+        playButton.gameObject.SetActive(true);
+        menuButton.gameObject.SetActive(true);
         onPlayerDying();
     }
 
@@ -109,10 +150,12 @@ public class PlayGlobals : MonoBehaviour
 
     void IntoGround()
     {
-        playerInstance.transform.Translate(0, -0.001f, 0);
-        if (playerInstance.transform.position.y < destroyHeight)
-        {
-            Destroy(playerInstance);
+        if (playerInstance != null) { 
+            playerInstance.transform.Translate(0, -0.001f, 0);
+            if (playerInstance.transform.position.y < destroyHeight)
+            {
+                Destroy(playerInstance);
+            }
         }
     }
 
