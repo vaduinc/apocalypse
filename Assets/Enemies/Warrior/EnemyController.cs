@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
     Animator anim;
     NavMeshAgent agent;
     float destroyHeight;
-    int health = 2;
+    int health = 1;
     bool isDead = false;
 
     public GameObject target;

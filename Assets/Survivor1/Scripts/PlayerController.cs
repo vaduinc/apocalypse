@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip gun;
     public AudioClip gunEmpty;
     public AudioClip dying;
+    public AudioClip pickUpHealth;
+    public AudioClip pickUpAmmo;
 
     public void OnCollisionEnter(Collision collision)
     {
@@ -67,6 +69,23 @@ public class PlayerController : MonoBehaviour
                     OnDying();
                 }
             }
+        }
+        else if (collision.gameObject.tag == "HealthKit")
+        {
+            if (myHealth < 100)
+            {
+                GetComponent<AudioSource>().PlayOneShot(pickUpHealth);
+                myHealth = myHealth + 15;
+                UpdateHealth(myHealth>100?100: myHealth);
+                Destroy(collision.gameObject);
+            }
+        }
+        else if (collision.gameObject.tag == "AmmoKit")
+        {
+            GetComponent<AudioSource>().PlayOneShot(pickUpAmmo);
+            myAmmo = myAmmo + 20;
+            UpdateAmmo(myAmmo);
+            Destroy(collision.gameObject);
         }
     }
 

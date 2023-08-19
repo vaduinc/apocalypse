@@ -581,6 +581,8 @@ MonoBehaviour:
   gun: {fileID: 8300000, guid: 2a02974d2e8fb4f46aa06ad9070d5fef, type: 3}
   gunEmpty: {fileID: 8300000, guid: 819512c19120241abb6c0114a0b006e9, type: 3}
   dying: {fileID: 8300000, guid: 0c06b9a9901834edc83cae5d2666b10c, type: 3}
+  pickUpHealth: {fileID: 8300000, guid: 27270cad313884e9cbc58a62e1a69bc6, type: 3}
+  pickUpAmmo: {fileID: 8300000, guid: 0abd557abd88041c7b55d325b876cfd2, type: 3}
 --- !u!114 &5372598375445111726
 MonoBehaviour:
   m_ObjectHideFlags: 0

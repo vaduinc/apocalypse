@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemies
   - Bullet
+  - HealthKit
+  - AmmoKit
+  - WinKit
   layers:
   - Default
   - TransparentFX
