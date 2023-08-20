@@ -39,7 +39,7 @@ public class CreateEnemies : MonoBehaviour
         if (!CreateOnStart && collider.gameObject.tag == "Player")
         {
             Create();
-            Destroy(gameObject);
+        //    Destroy(gameObject);
         }
     }
 
@@ -48,7 +48,7 @@ public class CreateEnemies : MonoBehaviour
         if (!CreateOnStart && collision.gameObject.tag == "Player")
         {
             Create();
-            Destroy(gameObject);
+       //     Destroy(gameObject);
         }
     }
 
