@@ -75,9 +75,11 @@ public class PlayGlobals : MonoBehaviour
 
         EnemyController.OnInstanceCreatedEnemy += EnemyInstanceCreated;
         EnemyController.OnDeadEnemy += DeadEnemy;
+        wonText.gameObject.SetActive(false);
         lostText.gameObject.SetActive(false);
         playButton.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
+        Cursor.visible = false; // Hide the mouse pointer
 
     }
 
@@ -155,6 +157,7 @@ public class PlayGlobals : MonoBehaviour
         playButton.gameObject.SetActive(true);
         menuButton.gameObject.SetActive(true);
         OnGameOVer(2);
+        Cursor.visible = true; // Hide the mouse pointer
     }
 
     void OnGameOVer(int waitFor)
