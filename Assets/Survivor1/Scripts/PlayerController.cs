@@ -20,6 +20,13 @@ public class PlayerController : MonoBehaviour
     public delegate void DeadPlayerDelegate();
     public static event DeadPlayerDelegate OnDeadPlayer;
 
+    public delegate void WinPlayerDelegate(int newHKey);
+    public static event WinPlayerDelegate OnWinPlayer;
+
+    public delegate void KeyPickUpPlayerDelegate(int newHKey);
+    public static event KeyPickUpPlayerDelegate OnKeyPickUpPlayer;
+
+    private int myKeys;
     private int myAmmo;
     private int myHealth;
 
@@ -53,6 +60,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip dying;
     public AudioClip pickUpHealth;
     public AudioClip pickUpAmmo;
+    public AudioClip pickUpNextKey;
+    public AudioClip victory;
 
     public void OnCollisionEnter(Collision collision)
     {
@@ -85,6 +94,20 @@ public class PlayerController : MonoBehaviour
             GetComponent<AudioSource>().PlayOneShot(pickUpAmmo);
             myAmmo = myAmmo + 20;
             UpdateAmmo(myAmmo);
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.tag == "WinKit")
+        {
+            myKeys = myKeys + 1;
+            if (myKeys == 2)
+            {
+                GetComponent<AudioSource>().PlayOneShot(victory);
+                OnKeyPickUpPlayer(myKeys);
+            } else
+            {
+                GetComponent<AudioSource>().PlayOneShot(pickUpNextKey);
+                OnWinPlayer(myKeys);
+            }
             Destroy(collision.gameObject);
         }
     }

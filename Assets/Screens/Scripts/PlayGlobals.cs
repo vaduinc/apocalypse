@@ -15,7 +15,8 @@ public class PlayGlobals : MonoBehaviour
     public static int EnemiesDown;
     public static int PlayerAmmo;
 
-    [Header("Audio")]
+    [Header("UI")]
+    public Text keyText;
     public Text ammoText;
     public Text enemyText;
     public Text healthText;
