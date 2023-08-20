@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
             if (!isDead) { 
                 anim.SetTrigger("HitLeft");
                 collision.gameObject.GetComponent<Bullet>().Explote();
-                myHealth = myHealth - 15;
+                myHealth = myHealth - 3;
                 UpdateHealth(myHealth);
                 if (myHealth <0)
                 {
@@ -102,11 +102,12 @@ public class PlayerController : MonoBehaviour
             if (myKeys == 2)
             {
                 GetComponent<AudioSource>().PlayOneShot(victory);
-                OnKeyPickUpPlayer(myKeys);
+                PlayGlobals.gameOver = true;
+                OnWinPlayer(myKeys);
             } else
             {
                 GetComponent<AudioSource>().PlayOneShot(pickUpNextKey);
-                OnWinPlayer(myKeys);
+                OnKeyPickUpPlayer(myKeys);
             }
             Destroy(collision.gameObject);
         }
@@ -259,6 +260,7 @@ public class PlayerController : MonoBehaviour
         anim = this.GetComponent<Animator>();
         myAmmo = PlayGlobals.PlayerAmmo;
         myHealth = PlayGlobals.PlayerHealth;
+        myKeys = PlayGlobals.PlayerKeys;
         UpdateAmmo(myAmmo);
         UpdateHealth(myHealth);
         Light aimLight = bulletAim.GetComponent<Light>();

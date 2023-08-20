@@ -583,6 +583,8 @@ MonoBehaviour:
   dying: {fileID: 8300000, guid: 0c06b9a9901834edc83cae5d2666b10c, type: 3}
   pickUpHealth: {fileID: 8300000, guid: 27270cad313884e9cbc58a62e1a69bc6, type: 3}
   pickUpAmmo: {fileID: 8300000, guid: 0abd557abd88041c7b55d325b876cfd2, type: 3}
+  pickUpNextKey: {fileID: 8300000, guid: 9a35d3ed588ea489bbf143abbc601764, type: 3}
+  victory: {fileID: 8300000, guid: 6773bc42570684d33a00625887cf450c, type: 3}
 --- !u!114 &5372598375445111726
 MonoBehaviour:
   m_ObjectHideFlags: 0

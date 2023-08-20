@@ -39,6 +39,16 @@ public class CreateEnemies : MonoBehaviour
         if (!CreateOnStart && collider.gameObject.tag == "Player")
         {
             Create();
+            Destroy(gameObject);
+        }
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (!CreateOnStart && collision.gameObject.tag == "Player")
+        {
+            Create();
+            Destroy(gameObject);
         }
     }
 

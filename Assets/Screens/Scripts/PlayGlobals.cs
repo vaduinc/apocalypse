@@ -14,13 +14,15 @@ public class PlayGlobals : MonoBehaviour
     public static int PlayerHealth;
     public static int EnemiesDown;
     public static int PlayerAmmo;
+    public static int PlayerKeys;
 
     [Header("UI")]
-    public Text keyText;
     public Text ammoText;
     public Text enemyText;
     public Text healthText;
+    public Text keysText;
     public Text lostText;
+    public Text wonText;
     public Button playButton;
     public Button menuButton;
 
@@ -33,6 +35,7 @@ public class PlayGlobals : MonoBehaviour
     {
         PlayerHealth = 100;
         EnemiesDown = 0;
+        PlayerKeys = 0;
         PlayerAmmo = 100;
         gameOver = false;
     }
@@ -67,6 +70,9 @@ public class PlayGlobals : MonoBehaviour
         PlayerController.OnHealthUpdated += UpdateHealthUI;
         PlayerController.OnScoreUpdated += UpdateAmmoUI;
         PlayerController.OnDeadPlayer += DeadPlayer;
+        PlayerController.OnWinPlayer += WinPlayer;
+        PlayerController.OnKeyPickUpPlayer += UpdateKeysUI;
+
         EnemyController.OnInstanceCreatedEnemy += EnemyInstanceCreated;
         EnemyController.OnDeadEnemy += DeadEnemy;
         lostText.gameObject.SetActive(false);
@@ -96,8 +102,11 @@ public class PlayGlobals : MonoBehaviour
         PlayerController.OnHealthUpdated -= UpdateHealthUI;
         PlayerController.OnScoreUpdated -= UpdateAmmoUI;
         PlayerController.OnDeadPlayer -= DeadPlayer;
+        PlayerController.OnWinPlayer -= WinPlayer;
+        PlayerController.OnKeyPickUpPlayer -= UpdateKeysUI;
+
         EnemyController.OnInstanceCreatedEnemy -= EnemyInstanceCreated;
-        EnemyController.OnDeadEnemy -= DeadEnemy;
+        EnemyController.OnDeadEnemy -= DeadEnemy; ;
 
         if (optionSelected == 1)
         {
@@ -125,16 +134,30 @@ public class PlayGlobals : MonoBehaviour
         ammoText.text = newScore.ToString();
     }
 
+    private void UpdateKeysUI(int newKeyScore)
+    {
+        keysText.text = newKeyScore.ToString();
+    }
+
+    private void WinPlayer(int newKeyScore)
+    {
+        keysText.text = newKeyScore.ToString();
+        wonText.gameObject.SetActive(true);
+        playButton.gameObject.SetActive(true);
+        menuButton.gameObject.SetActive(true);
+        OnGameOVer(8);
+    }
+
 
     private void DeadPlayer()
     {
         lostText.gameObject.SetActive(true);
         playButton.gameObject.SetActive(true);
         menuButton.gameObject.SetActive(true);
-        onPlayerDying();
+        OnGameOVer(2);
     }
 
-    void onPlayerDying()
+    void OnGameOVer(int waitFor)
     {
         cameraComponent.Follow = null;
         cameraComponent.LookAt = null;
@@ -145,7 +168,7 @@ public class PlayGlobals : MonoBehaviour
             Destroy(c);
         }
 
-        InvokeRepeating("IntoGround", 1, 1.0f);
+        InvokeRepeating("IntoGround", waitFor, 1.0f);
     }
 
 
